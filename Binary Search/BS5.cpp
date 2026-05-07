@@ -1,9 +1,8 @@
-//ques:33
+//leetcode:Q:81. Search in Rotated Sorted Array II
+
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
-         //always check for the sorted half either its left for right;
-        //after getting the sorted half check your target lies under that sorted half
+    bool search(vector<int>& nums, int target) {
         int n=nums.size();
         int low=0;
         int high=n-1;
@@ -12,34 +11,43 @@ public:
             int mid=(low+high)/2;
 
             if(nums[mid]==target){
-                return mid;
+                return true;
+            }
+            //handeling the edge for deuplicate element
+            //what happen if low mid and high are same=> how will you check the sorted half
+            //simply we will trim the search space
+            if(nums[low]==nums[mid] && nums[mid]==nums[high]){
+                low=low+1;
+                high=high-1;
+                continue;
             }
 
             //if left half is sorted
             if(nums[low]<=nums[mid]){
-                //if elemnt lying on left half then trim down to left half to get it
+       //elemnt target in left half range then trim left half
                 if(nums[low]<=target && target<=nums[mid]){
                     high=mid-1;
-
                 }
-                //if element not present in left half then trim down right half->present in right half
                 else{
                     low=mid+1;
                 }
             }
 
-            //right half sorted
+            //else right half is sorted
             else{
                 if(nums[high]>=target && target>=nums[mid]){
                     low=mid+1;
                 }
 
                 else{
+
                     high=mid-1;
                 }
             }
-
         }
-        return -1;
+
+        return false;
+        
+        
     }
 };

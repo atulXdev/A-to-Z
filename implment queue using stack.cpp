@@ -76,3 +76,90 @@ int main() {
 
     return 0;
 }
+
+---------------------------------------------------------------------------------------------
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Stack {
+public:
+    queue<int> s1, s2;
+
+    // push(x)
+    // Simply add element to S1
+    void push(int x) {
+        s1.push(x);
+    }
+
+    // pop()
+    void pop() {
+        if (s1.empty()) {
+            cout << "Stack is empty" << endl;
+            return;
+        }
+
+        // Move all elements except the last one
+        while (s1.size() > 1) {
+            s2.push(s1.front());
+            s1.pop();
+        }
+
+        // Remove the last element
+        s1.pop();
+
+        // Swap S1 and S2
+        swap(s1, s2);
+    }
+
+    // top()
+    int top() {
+        if (s1.empty()) {
+            cout << "Stack is empty" << endl;
+            return -1;
+        }
+
+        // Move all elements except the last one
+        while (s1.size() > 1) {
+            s2.push(s1.front());
+            s1.pop();
+        }
+
+        // Last element is the top of stack
+        int ans = s1.front();
+
+        // Move it to S2
+        s2.push(s1.front());
+        s1.pop();
+
+        // Swap S1 and S2
+        swap(s1, s2);
+
+        return ans;
+    }
+
+    int size() {
+        return s1.size();
+    }
+};
+
+int main() {
+    Stack st;
+
+    st.push(2);
+    st.push(3);
+    st.push(4);
+    st.push(5);
+
+    cout << "Top: " << st.top() << endl;
+
+    st.pop();
+
+    cout << "Top: " << st.top() << endl;
+
+    st.pop();
+
+    cout << "Top: " << st.top() << endl;
+
+    return 0;
+}
